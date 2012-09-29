@@ -94,8 +94,26 @@ quotes):
    "refs #1"
    "fixes #8"
 
+If you want to commit things not according to a trac-ticket, you can use 
+   "#noref"
+With this tag, no trac issue update will be done.
+
 And then you do a "git push" to push your changes upstream, the trac issue
 update will be done.
+
+A complete list of all tags which are available
+   - close
+   - closed
+   - closes
+   - fix
+   - fixed
+   - fixes
+   - references
+   - refs
+   - addresses
+   - re
+   - see
+   - #noref
 
 
 5. References

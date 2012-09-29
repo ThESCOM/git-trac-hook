@@ -137,7 +137,7 @@ def handle_pre_receive():
 	    ## if message references to a ticket it is ok
 	    message = call_git('show',['--format=%s%n%b','--summary',i])
 	    if not re.search("(close|closed|closes|fix|fixed|fixes|references|refs|addresses|re|see) #[0-9]+", message, re.IGNORECASE):
-		    if not re.search("(#noref|#release)",message,re.IGNORECASE):
+		    if not re.search("(#noref)",message,re.IGNORECASE):
 			    print """you need to reference a trac ticket number
 			        command #1
 			        command #1, #2
