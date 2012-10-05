@@ -106,9 +106,9 @@ def handle_trac(commits,env):
                     if change['permanent']:
                         cnum += 1
 
-                header = header + "\n" + msg
+                tracComment = header + "\n" + msg
                 now = datetime.now(utc)
-                ticket.save_changes(eml, header, now, db, str(cnum+1))
+                ticket.save_changes(eml, tracComment, now, db, str(cnum+1))
                 db.commit()
 
                 tn = TicketNotifyEmail(env) 
