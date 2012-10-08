@@ -69,7 +69,6 @@ def get_new_commits(ref_updates):
         if not re.match('0*$', old):
             # update
             commands += ["^%s" % old]
-        # else: new - do nothing more
 
     for ref in all_refs:
         commands += ["^%s" % ref]
@@ -170,7 +169,7 @@ def handle_pre_receive():
 
 	    mail = call_git('show',['--format=%ce','--summary',i])
 	    if not re.search(MAIL, mail):
-		    print "mail adress is not allowed you need a mail-adress like muster" + MAIL
+		    print "mail adress " + mail + " is not allowed you need a mail-adress like muster" + MAIL
 		    return -1
     
     return 0
