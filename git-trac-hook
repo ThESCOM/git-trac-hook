@@ -87,15 +87,25 @@ def handle_trac(commits,env):
         return
 
     for z in commits:
-        msg = call_git('show',['--format=%s%n%b','--summary',z])
+        string = call_git('show',['--format=%s%n%b','--summary',z])
         eml = call_git('rev-list', ['-n', '1', z, '--pretty=format:%ae']).splitlines()[1]
-        string = msg
+
+	try:
+	    string = string.decode('utf-8')
+	except UnicodeDecodeError as ude: 
+	    print >> sys.stderr, 'UTF-8 Encodeing Problem: %s' % ude
+
+	    # if return is commented out, the hook will just print a
+            # message that there is an error, and will not comment
+	    # a trac ticket. But it will update the remote repo
+            #return -1
+
         header = "In [%s/%s]:" % (z,REPO_NAME)
         for tkt in ticket_re.findall(string):
             try: 
                 db = env.get_db_cnx()
                 ticket = Ticket(env, tkt, db)
-                if re.search("(close|closed|closes|fix|fixed|fixes) #[0-9]+", msg, re.IGNORECASE):
+                if re.search("(close|closed|closes|fix|fixed|fixes) #[0-9]+", string, re.IGNORECASE):
                     ticket['status'] = "testing"
                     ticket['resolution'] = "testing"
 
@@ -105,7 +115,7 @@ def handle_trac(commits,env):
                     if change['permanent']:
                         cnum += 1
 
-                tracComment = header + "\n" + msg
+                tracComment = header + "\n" + string 
                 now = datetime.now(utc)
                 ticket.save_changes(eml, tracComment, now, db, str(cnum+1))
                 db.commit()
