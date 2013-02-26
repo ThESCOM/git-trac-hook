@@ -14,11 +14,11 @@ Copyright &copy; 2012 Max Oberberger
 
 Table of Contents
 =================
-	1. Introduction
-	2. System Requirements
-	3. Installation
-	4. Using git-trac-hook
-	5. References
+1. [Introduction]()
+2. [System Requirements]()
+3. [Installation]()
+4. [Using git-trac-hook]()
+5. [References]()
 
 
 1. Introduction
@@ -30,7 +30,7 @@ Once you have the script setup in your environment, every time you
 make a git commit, a comment is automatically posted to an open 
 issue in Trac.
 
-2. Requirements
+2. System Requirements
 ===============
 - Python 2.x and python modules: subprocess, trac-modules
 	  I've tested with python 2.6.6
