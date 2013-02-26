@@ -1,4 +1,4 @@
-             ,
+<pre><code>             ,
          -  /|
         -  / |
       -   /o |
@@ -9,9 +9,8 @@
     Max Oberberger
     github@oberbergers.de
     https://github.com/chiemseesurfer/git-trac-hook
-
-##########################################################################
-Copyright 2012 Max Oberberger
+</code></pre>
+Copyright &copy; 2012 Max Oberberger
 
 Table of Contents
 =================
@@ -33,15 +32,15 @@ issue in Trac.
 
 2. Requirements
 ===============
-	- Python 2.x and python modules: subprocess, trac-modules
+- Python 2.x and python modules: subprocess, trac-modules
 	  I've tested with python 2.6.6
 
-	- A Trac installation with Git-Plugin or the newest Trac (1.0)
-	  Trac got a build-in support for Git with its newest version:
-	  http://trac.edgewall.org/wiki/TracGit
-	  http://trac-hacks.org/wiki/GitPlugin
+- A Trac installation with Git-Plugin or the newest Trac (1.0)
+  Trac got a build-in support for Git with its newest version:
+  http://trac.edgewall.org/wiki/TracGit
+  http://trac-hacks.org/wiki/GitPlugin
 
-	- Git Version 1.6.x.y or newer (I've tested with 1.7.2.5)
+- Git Version 1.6.x.y or newer (I've tested with 1.7.2.5)
 
 
 3. Installation
@@ -71,16 +70,33 @@ commit message, followed by update of the Trac issue.
 
 3.1 Installation for "upstream" repository
 ------------------------------------------
-Copy this script to
-<upstream-repo-GIT-dir>/hooks/{pre-receive|post-receive}
-and mark it executable
+- Copy this script to
+  <upstream-repo-GIT-dir>/hooks/{pre-receive|post-receive}
+  and mark it executable
 
-Example:
-  cp git-trac-hook upstream-project.git/hooks/post-receive
-  cp git-trac-hook upstream-project.git/hooks/pre-receive
-  chmod a+x upstream-project.git/hooks/post-receive
-  chmod a+x upstream-project.git/hooks/pre-receive
+  **Example:**
+    
+        cp git-trac-hook upstream-project.git/hooks/post-receive
+        cp git-trac-hook upstream-project.git/hooks/pre-receive
+        chmod a+x upstream-project.git/hooks/post-receive
+        chmod a+x upstream-project.git/hooks/pre-receive
 
+- Set the following git config values in the bare repository:
+  
+  		git config trac.env /path/to/your/trac/environment
+  		git config trac.admin /path/to/your/trac-admin
+  		git config trac.depth NR
+
+  **Example:**
+    	
+    	git config trac.env /usr/local/trac/myTrac
+    	git config trac.admin /usr/local/bin/trac-admin
+    	git config trac.depth 4
+
+	trac.depth is used to extract the name of the git repository.
+	
+	**Example:**  
+		Repo: /var/www/git/repo.git => trac.depth 4
 
 4. Using git-trac-hook
 ===============

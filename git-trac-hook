@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License 
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Version 1.1
+# Version 1.3
 #
 
 import re
@@ -31,13 +31,26 @@ from trac.ticket.notification import TicketNotifyEmail
 from trac.ticket.web_ui import TicketModule
 from trac.util.datefmt import utc
 
-# config
-TRAC_ENV = '/usr/local/trac/TRAC_ENV' ## replace this with the path to your trac-environment
 GIT_PATH = '/usr/bin/git'
-TRAC_ADMIN = '/usr/local/bin/trac-admin'
-REPO_NAME = os.getcwd().split('/')[4] ## CHANGE the number. REPO_NAME = name of .git-folder
+
+def call_git(command, args, input=None):
+    return Popen([GIT_PATH, command] + args, stdin=PIPE, stdout=PIPE).communicate(input)[0]
+
+def git_config_get(name):
+    return call_git('config', [name])
+
+# config
+# delete trailing \n with rstrip()
+TRAC_ENV = git_config_get('trac.env').rstrip() 
+TRAC_ADMIN = git_config_get('trac.admin').rstrip()
+
+## I use bare repositories. I call every repo like reponame.git
+## Therefore I need to cut the .git off. Because Trac is not using it in its
+## repository browser. It also uses just lower case names.
+REPO_NAME = os.getcwd().split('/')[int(git_config_get('trac.depth').rstrip())].split('.')[0].lower()
+
 MYNAME = os.path.basename(sys.argv[0])
-MAIL = '@oberbergers.de' ## CHANGE this address to your own
+MAIL = '(@oberbergers.de|@localhost)' ## CHANGE this address to your own
 
 # Construct and compile regular expressions for finding ticket references
 # in commit messages.
@@ -125,9 +138,6 @@ def handle_trac(commits,env):
             except Exception, e:
                 print >>sys.stderr, 'Unexpected error while processing ticket ID %s: %s' % (tkt, e)
                 return -1
-
-def call_git(command, args, input=None):
-    return Popen([GIT_PATH, command] + args, stdin=PIPE, stdout=PIPE).communicate(input)[0]
 
 def handle_post_receive():
     env = open_environment(TRAC_ENV)
