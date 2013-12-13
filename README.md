@@ -100,18 +100,11 @@ commit message, followed by update of the Trac issue.
   
   		git config trac.env /path/to/your/trac/environment
   		git config trac.admin /path/to/your/trac-admin
-  		git config trac.depth NR
 
   **Example:**
     	
     	git config trac.env /usr/local/trac/myTrac
     	git config trac.admin /usr/local/bin/trac-admin
-    	git config trac.depth 4
-
-	trac.depth is used to extract the name of the git repository.
-	
-	**Example:**  
-		Repo: /var/www/git/repo.git => trac.depth 4
 
 4. Using git-trac-hook
 ===============
